@@ -1,22 +1,27 @@
-use std::collections::HashMap;
+use std::collections::HashSet;
 
 fn main() {
 
 }
 
 fn maximum_prime_difference(nums: Vec<i32>) -> i32 {
-    let mut prime_map:HashMap<i32, bool> = HashMap::new();
+    let mut prime_map:HashSet<i32> = HashSet::new();
     let mut max = 0;
     let mut min = nums.len();
     for i in 0..nums.len() {
-        if prime_map.contains_key(&nums[i]) || is_prime_difference(nums[i]) {
-            prime_map.insert(nums[i], true);
-            if i > max {
-                max = i
-            }
-            if i < min {
-                min = i
-            }
+        if prime_map.contains(&nums[i]) || is_prime_difference(nums[i]) {
+            prime_map.insert(nums[i]);
+            min = i;
+            break
+        }
+    }
+
+    for i in 0..nums.len() {
+        let j = nums.len() - i - 1;
+        if prime_map.contains(&nums[j]) || is_prime_difference(nums[j]) {
+            prime_map.insert(nums[j]);
+            max = j;
+            break
         }
     }
 
